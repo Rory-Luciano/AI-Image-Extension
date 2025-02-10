@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #image-container {
+            margin-bottom: 20px;
+        }
+        #generated-image {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+        #copy-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="image-container">
+        <img id="generated-image" src="" alt="Generated Image">
+    </div>
+    <button id="copy-button">Copy Image</button>
+
+    <script>
+        document.getElementById('copy-button').addEventListener('click', () => {
+            const img = document.getElementById('generated-image');
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob(blob => {
+                const item = new ClipboardItem({ 'image/png': blob });
+                navigator.clipboard.write([item]);
+            });
+        });
+
+        // Example: Set the src of the image to a generated image URL
+        document.getElementById('generated-image').src = 'path/to/generated/image.png';
+    </script>
+</body>
+</html>
